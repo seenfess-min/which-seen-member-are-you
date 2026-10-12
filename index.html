@@ -3,107 +3,187 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Which SEEN Member Are You?</title>
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: #fff;
-  background: linear-gradient(145deg, #a9dcff, #7289df, #e3dfff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;padding:20px;
+ display:flex;align-items:center;justify-content:center;
+ font-family:Arial,sans-serif;color:white;
+ background:linear-gradient(145deg,#b8e7ff,#8295ed,#e9dfff)
 }
-
-.card {
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
-  padding: 35px 22px;
-  border: 2px solid rgba(255,255,255,.8);
-  border-radius: 28px;
-  background: rgba(255,255,255,.18);
-  box-shadow: 0 12px 40px #5266a755;
-  backdrop-filter: blur(12px);
+.card{
+ width:100%;max-width:430px;text-align:center;padding:28px 22px;
+ border:2px solid #ffffffbd;border-radius:28px;
+ background:#ffffff30;box-shadow:0 12px 40px #5266a755;
+ backdrop-filter:blur(12px)
 }
-
-.star {
-  font-size: 42px;
-  margin-bottom: 12px;
+.tag{font-size:11px;letter-spacing:4px}
+h1{font-size:32px;line-height:1.2;text-shadow:2px 3px #7184bc}
+p{font-size:14px;line-height:1.7}
+.star{font-size:38px;margin:12px}
+button{
+ width:100%;padding:14px 10px;margin-top:12px;
+ border:1px solid white;border-radius:24px;
+ background:linear-gradient(90deg,#fff,#c9e7ff);
+ color:#5268a8;font-weight:bold;cursor:pointer;font-size:14px
 }
-
-.tag {
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: #eff8ff;
-}
-
-h1 {
-  font-size: 35px;
-  line-height: 1.15;
-  text-shadow: 2px 3px #7184bc;
-  margin: 18px 0;
-}
-
-p {
-  line-height: 1.7;
-  font-size: 14px;
-}
-
-button {
-  border: 2px solid white;
-  border-radius: 30px;
-  padding: 15px 28px;
-  margin-top: 18px;
-  background: linear-gradient(90deg, #f8fdff, #b9dfff);
-  color: #5268a8;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
-
-button:active { transform: scale(.96); }
-
-#quiz { display: none; }
+.option{background:#ffffff25;color:white;border:1px solid white}
+.small{font-size:11px;letter-spacing:2px}
+.hidden{display:none}
+#progress{font-size:12px;letter-spacing:2px}
+.result-name{font-size:40px;margin:18px 0}
 </style>
 </head>
 <body>
 <main class="card">
-  <section id="home">
-    <div class="star">✧･ﾟ: *✧･ﾟ:* ⭐</div>
-    <div class="tag">WELCOME, SEEN!</div>
-    <h1>WHICH SEEN<br>MEMBER ARE YOU?</h1>
-    <p>Ready to discover your SEEN soulmate?<br>
-    Answer the questions and find your match! ♡</p>
-    <button onclick="startQuiz()">START QUIZ ✦</button>
-    <p style="font-size:11px;letter-spacing:2px;">♡ MADE BY SEEN FANS ♡</p>
-  </section>
 
-  <section id="quiz">
-    <div class="star">💿 ✦ 💙</div>
-    <div class="tag">YOUR SEEN MATCH</div>
-    <h1>COMING SOON!</h1>
-    <p>Our quiz is getting ready.<br>Let's make something cute together!</p>
-    <button onclick="goHome()">BACK HOME</button>
-  </section>
+<section id="home">
+ <div class="star">✧･ﾟ: *✧･ﾟ:* 💿</div>
+ <div class="tag">WELCOME, SEEN!</div>
+ <h1>WHICH SEEN<br>MEMBER ARE YOU?</h1>
+ <p>Answer 5 fun questions and discover your SEEN match! ♡</p>
+ <button onclick="startQuiz()">START QUIZ ✦</button>
+ <p class="small">♡ MADE BY SEEN FANS ♡</p>
+</section>
+
+<section id="quiz" class="hidden">
+ <div class="tag">SEEN PERSONALITY TEST</div>
+ <p id="progress"></p>
+ <h1 id="question"></h1>
+ <div id="answers"></div>
+</section>
+
+<section id="result" class="hidden">
+ <div class="star">💿 ✦ 💙</div>
+ <div class="tag">YOUR SEEN MATCH IS...</div>
+ <div class="result-name" id="member"></div>
+ <p id="description"></p>
+ <button onclick="shareResult()">SHARE ON X ♡</button>
+ <button onclick="restart()">TRY AGAIN ↻</button>
+ <p class="small">WHICH SEEN MEMBER ARE YOU?</p>
+</section>
+
 </main>
-
 <script>
-function startQuiz() {
-  document.getElementById("home").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
+const questions = [
+ {
+  q:"What's your vibe in a friend group?",
+  a:[
+   ["The funny one",0],
+   ["The cool one",1],
+   ["The caring one",2],
+   ["The playful one",3]
+  ]
+ },
+ {
+  q:"Choose your perfect day!",
+  a:[
+   ["Hanging out with friends",0],
+   ["Listening to music",1],
+   ["Relaxing at home",2],
+   ["Trying something new",3]
+  ]
+ },
+ {
+  q:"Pick a color aesthetic!",
+  a:[
+   ["Sky blue ☁️",0],
+   ["Black & silver 💿",1],
+   ["Soft pink 🩷",2],
+   ["Lavender 💜",3]
+  ]
+ },
+ {
+  q:"When your friend is sad, you...",
+  a:[
+   ["Make them laugh",0],
+   ["Stay beside them",1],
+   ["Listen and comfort them",2],
+   ["Cheer them up with activities",3]
+  ]
+ },
+ {
+  q:"Choose your energy!",
+  a:[
+   ["Chaotic sunshine ☀️",0],
+   ["Quiet but charming 🌙",1],
+   ["Warm and sweet 🧸",2],
+   ["Cute and unpredictable ✨",3]
+  ]
+ }
+];
+
+const members = [
+ {name:"DNDY",desc:"You're the fun spark! You bring laughter and lively energy wherever you go. ♡"},
+ {name:"JASON",desc:"You're effortlessly cool! You have your own charm and a vibe people remember. 💿"},
+ {name:"NOEL",desc:"You're a warm soul! You care deeply about people and make them feel comfortable. ☁️"},
+ {name:"ALBIAN",desc:"You're playful and full of surprises! Your unique energy makes every moment memorable. ✨"}
+];
+
+let current = 0;
+let scores = [0,0,0,0];
+let finalMember = "";
+
+function startQuiz(){
+ current = 0;
+ scores = [0,0,0,0];
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("result").classList.add("hidden");
+ document.getElementById("quiz").classList.remove("hidden");
+ showQuestion();
 }
-function goHome() {
-  document.getElementById("quiz").style.display = "none";
-  document.getElementById("home").style.display = "block";
+
+function showQuestion(){
+ const item = questions[current];
+ document.getElementById("progress").textContent =
+ "QUESTION " + (current+1) + " / " + questions.length;
+ document.getElementById("question").textContent = item.q;
+ const box = document.getElementById("answers");
+ box.innerHTML = "";
+ item.a.forEach(function(answer){
+  const btn = document.createElement("button");
+  btn.className = "option";
+  btn.textContent = answer[0];
+  btn.onclick = function(){ choose(answer[1]); };
+  box.appendChild(btn);
+ });
+}
+
+function choose(memberIndex){
+ scores[memberIndex]++;
+ current++;
+ if(current < questions.length){
+  showQuestion();
+ } else {
+  showResult();
+ }
+}
+
+function showResult(){
+ let winner = 0;
+ for(let i=1;i<scores.length;i++){
+  if(scores[i] > scores[winner]) winner = i;
+ }
+ finalMember = members[winner].name;
+ document.getElementById("quiz").classList.add("hidden");
+ document.getElementById("result").classList.remove("hidden");
+ document.getElementById("member").textContent = finalMember;
+ document.getElementById("description").textContent = members[winner].desc;
+}
+
+function shareResult(){
+ const text = "I got " + finalMember +
+ " in WHICH SEEN MEMBER ARE YOU? 💙💿 Which SEEN member are you? ♡";
+ window.open("https://twitter.com/intent/tweet?text=" +
+ encodeURIComponent(text), "_blank");
+}
+
+function restart(){
+ document.getElementById("result").classList.add("hidden");
+ document.getElementById("home").classList.remove("hidden");
 }
 </script>
 </body>
 </html>
- 
