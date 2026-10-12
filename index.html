@@ -1,188 +1,384 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Which SEEN Member Are You?</title>
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;padding:20px;
- display:flex;align-items:center;justify-content:center;
- font-family:Arial,sans-serif;color:white;
- background:linear-gradient(145deg,#b8e7ff,#8295ed,#e9dfff)
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  color: #20396e;
+  background: linear-gradient(145deg, #dceaff, #c9c9ff, #f0f5ff);
 }
-.card{
- width:100%;max-width:430px;text-align:center;padding:28px 22px;
- border:2px solid #ffffffbd;border-radius:28px;
- background:#ffffff30;box-shadow:0 12px 40px #5266a755;
- backdrop-filter:blur(12px)
+
+.card {
+  width: 100%;
+  max-width: 470px;
+  padding: 25px 20px;
+  background: rgba(255,255,255,.92);
+  border: 2px solid white;
+  border-radius: 25px;
+  box-shadow: 0 12px 35px #627dc52b;
+  text-align: center;
 }
-.tag{font-size:11px;letter-spacing:4px}
-h1{font-size:32px;line-height:1.2;text-shadow:2px 3px #7184bc}
-p{font-size:14px;line-height:1.7}
-.star{font-size:38px;margin:12px}
-button{
- width:100%;padding:14px 10px;margin-top:12px;
- border:1px solid white;border-radius:24px;
- background:linear-gradient(90deg,#fff,#c9e7ff);
- color:#5268a8;font-weight:bold;cursor:pointer;font-size:14px
+
+.tag {
+  display: inline-block;
+  padding: 7px 12px;
+  background: #e5edff;
+  color: #294b9b;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
-.option{background:#ffffff25;color:white;border:1px solid white}
-.small{font-size:11px;letter-spacing:2px}
-.hidden{display:none}
-#progress{font-size:12px;letter-spacing:2px}
-.result-name{font-size:40px;margin:18px 0}
+
+h1 {
+  color: #23458d;
+  font-size: clamp(28px, 7vw, 36px);
+  line-height: 1.15;
+  margin: 18px 0 12px;
+}
+
+p { line-height: 1.65; }
+
+.sub {
+  color: #68799f;
+  font-size: 13px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 14px;
+  background: #3155a8;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  line-height: 1.45;
+}
+
+button.secondary {
+  background: #e6edff;
+  color: #284788;
+  border: 1px solid #c9d8ff;
+}
+
+button.answer {
+  text-align: left;
+  background: white;
+  color: #2b416f;
+  border: 1.5px solid #d5e0fa;
+}
+
+button.answer:active {
+  background: #eaf0ff;
+}
+
+.progress {
+  height: 7px;
+  margin: 18px 0;
+  overflow: hidden;
+  background: #e1e8fa;
+  border-radius: 10px;
+}
+
+#bar {
+  width: 0;
+  height: 100%;
+  background: #4268bd;
+  transition: width .2s;
+}
+
+.question {
+  margin: 22px 0;
+  font-size: 20px;
+  line-height: 1.45;
+  font-weight: bold;
+}
+
+.result-icon { font-size: 48px; }
+
+.result-title {
+  margin: 12px 0;
+  color: #23458d;
+  font-size: 30px;
+}
+
+.result-desc {
+  color: #53658d;
+  font-size: 14px;
+}
+
+.small {
+  margin-top: 24px;
+  color: #173b8f;
+  font-size: 12px;
+}
+
+.hidden { display: none; }
 </style>
 </head>
+
 <body>
 <main class="card">
 
-<section id="home">
- <div class="star">✧･ﾟ: *✧･ﾟ:* 💿</div>
- <div class="tag">WELCOME, SEEN!</div>
- <h1>WHICH SEEN<br>MEMBER ARE YOU?</h1>
- <p>Answer 5 fun questions and discover your SEEN match! ♡</p>
- <button onclick="startQuiz()">START QUIZ ✦</button>
- <p class="small">♡ MADE BY SEEN FANS ♡</p>
-</section>
+  <div class="tag">✦ SEEN PERSONALITY QUIZ ✦</div>
 
-<section id="quiz" class="hidden">
- <div class="tag">SEEN PERSONALITY TEST</div>
- <p id="progress"></p>
- <h1 id="question"></h1>
- <div id="answers"></div>
-</section>
+  <section id="home">
+    <h1>which seen<br>member are you?</h1>
+    <p class="sub">
+      pagi yang hangat, siang yang penuh energi,
+      senja yang tenang, atau malam yang ramai? 💙
+    </p>
+    <p>
+      Jawab 10 pertanyaan dan temukan member SEEN
+      yang paling cocok dengan kepribadianmu!
+    </p>
+    <button onclick="startQuiz()">ayo mulai ♡</button>
+  </section>
 
-<section id="result" class="hidden">
- <div class="star">💿 ✦ 💙</div>
- <div class="tag">YOUR SEEN MATCH IS...</div>
- <div class="result-name" id="member"></div>
- <p id="description"></p>
- <button onclick="shareResult()">SHARE ON X ♡</button>
- <button onclick="restart()">TRY AGAIN ↻</button>
- <p class="small">WHICH SEEN MEMBER ARE YOU?</p>
-</section>
+  <section id="quiz" class="hidden">
+    <p class="sub" id="counter"></p>
+    <div class="progress"><div id="bar"></div></div>
+    <div class="question" id="question"></div>
+    <div id="answers"></div>
+  </section>
 
+  <section id="result" class="hidden">
+    <div class="result-icon" id="resultIcon"></div>
+    <p class="sub">HASIL KUIS KAMU ADALAH...</p>
+    <h2 class="result-title" id="resultName"></h2>
+    <div class="tag" id="resultTag"></div>
+    <p class="result-desc" id="resultDesc"></p>
+    <p id="resultQuote"></p>
+    <button onclick="shareResult()">bagikan hasil ke X ↗</button>
+    <button class="secondary" onclick="startQuiz()">coba lagi ♡</button>
+  </section>
+
+  <p class="small">♡ made by @seenfessid 💙</p>
 </main>
-<script>
-const questions = [
- {
-  q:"What's your vibe in a friend group?",
-  a:[
-   ["The funny one",0],
-   ["The cool one",1],
-   ["The caring one",2],
-   ["The playful one",3]
-  ]
- },
- {
-  q:"Choose your perfect day!",
-  a:[
-   ["Hanging out with friends",0],
-   ["Listening to music",1],
-   ["Relaxing at home",2],
-   ["Trying something new",3]
-  ]
- },
- {
-  q:"Pick a color aesthetic!",
-  a:[
-   ["Sky blue ☁️",0],
-   ["Black & silver 💿",1],
-   ["Soft pink 🩷",2],
-   ["Lavender 💜",3]
-  ]
- },
- {
-  q:"When your friend is sad, you...",
-  a:[
-   ["Make them laugh",0],
-   ["Stay beside them",1],
-   ["Listen and comfort them",2],
-   ["Cheer them up with activities",3]
-  ]
- },
- {
-  q:"Choose your energy!",
-  a:[
-   ["Chaotic sunshine ☀️",0],
-   ["Quiet but charming 🌙",1],
-   ["Warm and sweet 🧸",2],
-   ["Cute and unpredictable ✨",3]
-  ]
- }
-];
 
-const members = [
- {name:"DNDY",desc:"You're the fun spark! You bring laughter and lively energy wherever you go. ♡"},
- {name:"JASON",desc:"You're effortlessly cool! You have your own charm and a vibe people remember. 💿"},
- {name:"NOEL",desc:"You're a warm soul! You care deeply about people and make them feel comfortable. ☁️"},
- {name:"ALBIAN",desc:"You're playful and full of surprises! Your unique energy makes every moment memorable. ✨"}
+<script>
+const members = {
+  dndy: {
+    name: "DNDY",
+    icon: "🌅",
+    tag: "THE CARING MORNING",
+    desc: "Kamu adalah sosok yang perhatian dan bisa diandalkan! Kamu suka berbagi informasi, memberi saran, dan mengingatkan orang-orang tersayang. Kadang kalau sudah cerita, susah berhenti WKWK. Tapi di balik semua omonganmu, kamu benar-benar peduli dan ingin memastikan semua orang baik-baik saja.",
+    quote: "“eh, kalian udah tahu belum? sini aku kasih tahu!”"
+  },
+  jason: {
+    name: "JASON",
+    icon: "☀️",
+    tag: "THE CHAOTIC AFTERNOON",
+    desc: "Kamu adalah sumber energi di mana pun kamu berada! Periang, spontan, dan ceplas-ceplos. Kamu suka membuat suasana lebih hidup dan biasanya langsung mengatakan apa yang kamu pikirkan. Bersamamu, suasana sepi bisa berubah jadi keramaian dalam hitungan detik.",
+    quote: "“YA UDAH BILANG AJA, NGAPAIN DIPIKIRIN LAMA-LAMA?”"
+  },
+  albian: {
+    name: "ALBIAN",
+    icon: "🌇",
+    tag: "THE UNPREDICTABLE DUSK",
+    desc: "Kamu cenderung anteng dan nyaman mengamati keadaan dari jauh. Tapi jangan salah, isi kepalamu bisa ramai sendiri! Kadang kalem, kadang bingung dengan perasaan sendiri, dan sesekali susah ditebak. Kamu punya dunia sendiri yang nggak selalu bisa dimengerti orang lain.",
+    quote: "“aku kenapa, ya? gatau juga.”"
+  },
+  noel: {
+    name: "NOEL",
+    icon: "🌙",
+    tag: "THE FEISTY NIGHT",
+    desc: "Kamu punya sisi galak yang justru menghibur! Gampang terpancing kalau teman mulai usil, suka adu mulut bercanda, dan reaksimu bisa jadi hiburan tersendiri. Apalagi kalau ketemu orang yang sama-sama suka cari gara-gara. Ribut sedikit? Sudah biasa!",
+    quote: "“JASON, LO TUH YA—!! 😭”"
+  }
+};
+
+const questions = [
+  {
+    q: "1. Kalau lagi kumpul bareng teman, kamu biasanya...",
+    a: [
+      ["dndy", "Paling banyak cerita dan berbagi informasi"],
+      ["jason", "Bikin suasana ramai dengan energi sendiri"],
+      ["albian", "Duduk santai sambil mengamati mereka"],
+      ["noel", "Mengusili teman sampai ada yang protes"]
+    ]
+  },
+  {
+    q: "2. Kalau temanmu sedang punya masalah, kamu akan...",
+    a: [
+      ["dndy", "Memberi saran dan mengingatkan hal penting"],
+      ["jason", "Jujur mengatakan pendapatku biar cepat selesai"],
+      ["albian", "Mendengarkan dulu sebelum ikut bicara"],
+      ["noel", "Meledek sedikit, tapi tetap bantu saat dibutuhkan"]
+    ]
+  },
+  {
+    q: "3. Pilih waktu yang paling menggambarkan dirimu!",
+    a: [
+      ["dndy", "Pagi yang hangat dan menenangkan 🌅"],
+      ["jason", "Siang yang cerah dan penuh energi ☀️"],
+      ["albian", "Senja yang tenang dan sedikit misterius 🌇"],
+      ["noel", "Malam yang terasa paling hidup 🌙"]
+    ]
+  },
+  {
+    q: "4. Temanmu menyebalkan banget hari ini. Kamu...",
+    a: [
+      ["dndy", "Menjelaskan panjang lebar kenapa dia salah"],
+      ["jason", "Langsung ngomong di depan orangnya"],
+      ["albian", "Diam dulu, malas menanggapi"],
+      ["noel", "Balas mengomel sambil bercanda"]
+    ]
+  },
+  {
+    q: "5. Orang-orang paling sering mengenalmu sebagai...",
+    a: [
+      ["dndy", "Si perhatian yang suka mengingatkan"],
+      ["jason", "Si ceria yang energinya nggak habis-habis"],
+      ["albian", "Si kalem yang kadang sulit ditebak"],
+      ["noel", "Si galak bercanda yang suka adu mulut"]
+    ]
+  },
+  {
+    q: "6. Kalau ada informasi atau gosip baru, kamu...",
+    a: [
+      ["dndy", "Pengen cerita ke semua orang biar pada tahu"],
+      ["jason", "Langsung bereaksi dan ngomong apa adanya"],
+      ["albian", "Dengerin dulu, belum tentu ikut nimbrung"],
+      ["noel", "Ikut komentar, apalagi kalau ada yang bisa diusili"]
+    ]
+  },
+  {
+    q: "7. Pilih suasana liburan favoritmu!",
+    a: [
+      ["dndy", "Ngobrol santai di tempat yang nyaman"],
+      ["jason", "Pergi ke tempat ramai dan mencoba banyak hal"],
+      ["albian", "Menikmati pemandangan sambil bersantai"],
+      ["noel", "Hangout bareng teman yang bisa diajak bercanda"]
+    ]
+  },
+  {
+    q: "8. Kalau ada teman yang sengaja menggodamu...",
+    a: [
+      ["dndy", "Menjelaskan kenapa dia harus berhenti"],
+      ["jason", "Menggoda balik tanpa pikir panjang"],
+      ["albian", "Melihat dulu, ini serius atau cuma bercanda"],
+      ["noel", "Langsung protes, terus malah lanjut ribut"]
+    ]
+  },
+  {
+    q: "9. Kamu paling nyaman jadi orang yang...",
+    a: [
+      ["dndy", "Memastikan semua orang terurus"],
+      ["jason", "Membawa semangat dan menghidupkan suasana"],
+      ["albian", "Menikmati waktu sendiri tanpa banyak drama"],
+      ["noel", "Punya teman dekat untuk saling usil"]
+    ]
+  },
+  {
+    q: "10. Pilih kalimat yang paling cocok denganmu!",
+    a: [
+      ["dndy", "Tenang, aku jelasin semuanya biar kamu paham."],
+      ["jason", "HAHAHA AYOOO, KITA COBA AJA!"],
+      ["albian", "Aku santai kok... kayaknya."],
+      ["noel", "GUE NGGAK MARAH! LO YANG NYEBELIN!"]
+    ]
+  }
 ];
 
 let current = 0;
-let scores = [0,0,0,0];
-let finalMember = "";
+let scores = {};
 
-function startQuiz(){
- current = 0;
- scores = [0,0,0,0];
- document.getElementById("home").classList.add("hidden");
- document.getElementById("result").classList.add("hidden");
- document.getElementById("quiz").classList.remove("hidden");
- showQuestion();
+function show(id) {
+  ["home", "quiz", "result"].forEach(section => {
+    document.getElementById(section).classList.add("hidden");
+  });
+  document.getElementById(id).classList.remove("hidden");
 }
 
-function showQuestion(){
- const item = questions[current];
- document.getElementById("progress").textContent =
- "QUESTION " + (current+1) + " / " + questions.length;
- document.getElementById("question").textContent = item.q;
- const box = document.getElementById("answers");
- box.innerHTML = "";
- item.a.forEach(function(answer){
-  const btn = document.createElement("button");
-  btn.className = "option";
-  btn.textContent = answer[0];
-  btn.onclick = function(){ choose(answer[1]); };
-  box.appendChild(btn);
- });
+function startQuiz() {
+  current = 0;
+  scores = { dndy: 0, jason: 0, albian: 0, noel: 0 };
+  show("quiz");
+  renderQuestion();
+  window.scrollTo(0, 0);
 }
 
-function choose(memberIndex){
- scores[memberIndex]++;
- current++;
- if(current < questions.length){
-  showQuestion();
- } else {
-  showResult();
- }
+function renderQuestion() {
+  const item = questions[current];
+
+  document.getElementById("counter").textContent =
+    `pertanyaan ${current + 1} dari ${questions.length}`;
+
+  document.getElementById("bar").style.width =
+    `${(current / questions.length) * 100}%`;
+
+  document.getElementById("question").textContent = item.q;
+
+  const container = document.getElementById("answers");
+  container.innerHTML = "";
+
+  item.a.forEach(([member, label]) => {
+    const button = document.createElement("button");
+    button.className = "answer";
+    button.textContent = label;
+    button.onclick = () => chooseAnswer(member);
+    container.appendChild(button);
+  });
 }
 
-function showResult(){
- let winner = 0;
- for(let i=1;i<scores.length;i++){
-  if(scores[i] > scores[winner]) winner = i;
- }
- finalMember = members[winner].name;
- document.getElementById("quiz").classList.add("hidden");
- document.getElementById("result").classList.remove("hidden");
- document.getElementById("member").textContent = finalMember;
- document.getElementById("description").textContent = members[winner].desc;
+function chooseAnswer(member) {
+  scores[member]++;
+  current++;
+
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    showResult();
+  }
 }
 
-function shareResult(){
- const text = "I got " + finalMember +
- " in WHICH SEEN MEMBER ARE YOU? 💙💿 Which SEEN member are you? ♡";
- window.open("https://twitter.com/intent/tweet?text=" +
- encodeURIComponent(text), "_blank");
+function showResult() {
+  document.getElementById("bar").style.width = "100%";
+
+  const maxScore = Math.max(...Object.values(scores));
+  const winners = Object.keys(scores).filter(
+    member => scores[member] === maxScore
+  );
+
+  const winner = winners[Math.floor(Math.random() * winners.length)];
+  const result = members[winner];
+
+  document.getElementById("resultIcon").textContent = result.icon;
+  document.getElementById("resultName").textContent = result.name;
+  document.getElementById("resultTag").textContent = result.tag;
+  document.getElementById("resultDesc").textContent = result.desc;
+  document.getElementById("resultQuote").textContent = result.quote;
+
+  show("result");
+  window.scrollTo(0, 0);
 }
 
-function restart(){
- document.getElementById("result").classList.add("hidden");
- document.getElementById("home").classList.remove("hidden");
+function shareResult() {
+  const name = document.getElementById("resultName").textContent;
+  const text = `hasil kuis WHICH SEEN MEMBER ARE YOU? aku dapat ${name}! 💙 kamu dapat siapa? coba di sini: ${location.href}`;
+
+  window.open(
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text),
+    "_blank"
+  );
 }
 </script>
 </body>
