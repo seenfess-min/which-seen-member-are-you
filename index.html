@@ -6,6 +6,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Which SEEN Member Are You?</title>
 <style>
+.member-photo {
+  width: 180px;
+  height: 180px;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 3px solid #9ed8ff;
+  box-shadow: 0 0 18px rgba(100, 190, 255, 0.35);
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -142,13 +159,13 @@ button.answer:active {
     <h1>which seen<br>member are you?</h1>
     <p class="sub">
       pagi yang hangat, siang yang penuh energi,
-      senja yang tenang, atau malam yang ramai? 💙
+      senja yang tenang, atau malam yang ramai? 
     </p>
     <p>
       Jawab 10 pertanyaan dan temukan member SEEN
       yang paling cocok dengan kepribadianmu!
     </p>
-    <button onclick="startQuiz()">ayo mulai ♡</button>
+    <button onclick="startQuiz()">START ♡</button>
   </section>
 
   <section id="quiz" class="hidden">
@@ -173,26 +190,40 @@ button.answer:active {
 </main>
 
 <script>
+const memberPhotos = {
+  Dndy: "dndy.jpg"
+  Jason: "jason.jpg",
+  Albian: "albian.jpg",
+  Noel: "noel.jpg"
+};
+
+function showMemberPhoto(memberName) {
+  const photo = document.getElementById("memberImage");
+  if (photo && memberPhotos[memberName]) {
+    photo.src = memberPhotos[memberName];
+  }
+}
+
 const members = {
   dndy: {
     name: "DNDY",
     icon: "🌅",
     tag: "THE CARING MORNING",
-    desc: "Kamu adalah sosok yang perhatian dan bisa diandalkan! Kamu suka berbagi informasi, memberi saran, dan mengingatkan orang-orang tersayang. Kadang kalau sudah cerita, susah berhenti WKWK. Tapi di balik semua omonganmu, kamu benar-benar peduli dan ingin memastikan semua orang baik-baik saja.",
+    desc: "Kamu adalah sosok yang perhatian dan bisa diandalkan! Kamu suka berbagi informasi, memberi saran, dan mengingatkan orang-orang terdekatmu. Tapi di balik semua omonganmu, kamu benar-benar peduli dan ingin memastikan semua orang baik-baik saja.",
     quote: "“eh, kalian udah tahu belum? sini aku kasih tahu!”"
   },
   jason: {
     name: "JASON",
     icon: "☀️",
     tag: "THE CHAOTIC AFTERNOON",
-    desc: "Kamu adalah sumber energi di mana pun kamu berada! Periang, spontan, dan ceplas-ceplos. Kamu suka membuat suasana lebih hidup dan biasanya langsung mengatakan apa yang kamu pikirkan. Bersamamu, suasana sepi bisa berubah jadi keramaian dalam hitungan detik.",
+    desc: "Kamu adalah sumber energi di mana pun kamu berada! Periang, dan apa adanya. Kamu suka membuat suasana lebih hidup dan biasanya langsung mengatakan apa yang kamu pikirkan. Bersamamu, suasana sepi bisa berubah jadi keramaian.",
     quote: "“YA UDAH BILANG AJA, NGAPAIN DIPIKIRIN LAMA-LAMA?”"
   },
   albian: {
     name: "ALBIAN",
     icon: "🌇",
     tag: "THE UNPREDICTABLE DUSK",
-    desc: "Kamu cenderung anteng dan nyaman mengamati keadaan dari jauh. Tapi jangan salah, isi kepalamu bisa ramai sendiri! Kadang kalem, kadang bingung dengan perasaan sendiri, dan sesekali susah ditebak. Kamu punya dunia sendiri yang nggak selalu bisa dimengerti orang lain.",
+    desc: "Kamu cenderung pendiam dan nyaman mengamati keadaan dari jauh. Tapi jangan salah, isi kepalamu bisa ramai sendiri! Kadang diam, kadang bingung dengan perasaan sendiri, dan sesekali susah ditebak. Kamu punya dunia sendiri yang nggak selalu bisa dimengerti orang lain.",
     quote: "“aku kenapa, ya? gatau juga.”"
   },
   noel: {
@@ -200,7 +231,7 @@ const members = {
     icon: "🌙",
     tag: "THE FEISTY NIGHT",
     desc: "Kamu punya sisi galak yang justru menghibur! Gampang terpancing kalau teman mulai usil, suka adu mulut bercanda, dan reaksimu bisa jadi hiburan tersendiri. Apalagi kalau ketemu orang yang sama-sama suka cari gara-gara. Ribut sedikit? Sudah biasa!",
-    quote: "“JASON, LO TUH YA—!! 😭”"
+    quote: "BUKAN AKU YANG MULAI, DIA DULUAN“—!!”"
   }
 };
 
@@ -211,7 +242,7 @@ const questions = [
       ["dndy", "Paling banyak cerita dan berbagi informasi"],
       ["jason", "Bikin suasana ramai dengan energi sendiri"],
       ["albian", "Duduk santai sambil mengamati mereka"],
-      ["noel", "Mengusili teman sampai ada yang protes"]
+      ["noel", "Kadang ikut rame, kadang cuma duduk menikmati suasana"]
     ]
   },
   {
@@ -220,7 +251,7 @@ const questions = [
       ["dndy", "Memberi saran dan mengingatkan hal penting"],
       ["jason", "Jujur mengatakan pendapatku biar cepat selesai"],
       ["albian", "Mendengarkan dulu sebelum ikut bicara"],
-      ["noel", "Meledek sedikit, tapi tetap bantu saat dibutuhkan"]
+      ["noel", "Ngajak dia keluar biar nggak kepikiran terus"]
     ]
   },
   {
@@ -237,8 +268,8 @@ const questions = [
     a: [
       ["dndy", "Menjelaskan panjang lebar kenapa dia salah"],
       ["jason", "Langsung ngomong di depan orangnya"],
-      ["albian", "Diam dulu, malas menanggapi"],
-      ["noel", "Balas mengomel sambil bercanda"]
+      ["albian", "Diam saja, malas menanggapi"],
+      ["noel", "Balas, sambil ngomel-ngomel"]
     ]
   },
   {
@@ -247,16 +278,16 @@ const questions = [
       ["dndy", "Si perhatian yang suka mengingatkan"],
       ["jason", "Si ceria yang energinya nggak habis-habis"],
       ["albian", "Si kalem yang kadang sulit ditebak"],
-      ["noel", "Si galak bercanda yang suka adu mulut"]
+      ["noel", "Si galak suka bercanda yang suka adu mulut"]
     ]
   },
   {
     q: "6. Kalau ada informasi atau gosip baru, kamu...",
     a: [
-      ["dndy", "Pengen cerita ke semua orang biar pada tahu"],
+      ["dndy", "Cerita ke orang-orang biar pada tahu"],
       ["jason", "Langsung bereaksi dan ngomong apa adanya"],
-      ["albian", "Dengerin dulu, belum tentu ikut nimbrung"],
-      ["noel", "Ikut komentar, apalagi kalau ada yang bisa diusili"]
+      ["albian", "Dengerin aja, nggak mau ikut campur"],
+      ["noel", "Lihat situasi, baru ikut nimbrung kalau menarik"]
     ]
   },
   {
@@ -265,7 +296,7 @@ const questions = [
       ["dndy", "Ngobrol santai di tempat yang nyaman"],
       ["jason", "Pergi ke tempat ramai dan mencoba banyak hal"],
       ["albian", "Menikmati pemandangan sambil bersantai"],
-      ["noel", "Hangout bareng teman yang bisa diajak bercanda"]
+      ["noel", "Hangout bareng teman"]
     ]
   },
   {
@@ -274,16 +305,16 @@ const questions = [
       ["dndy", "Menjelaskan kenapa dia harus berhenti"],
       ["jason", "Menggoda balik tanpa pikir panjang"],
       ["albian", "Melihat dulu, ini serius atau cuma bercanda"],
-      ["noel", "Langsung protes, terus malah lanjut ribut"]
+      ["noel", "Langsung protes"]
     ]
   },
   {
     q: "9. Kamu paling nyaman jadi orang yang...",
     a: [
-      ["dndy", "Memastikan semua orang terurus"],
+      ["dndy", "Perhatian ke orang terdekat"],
       ["jason", "Membawa semangat dan menghidupkan suasana"],
       ["albian", "Menikmati waktu sendiri tanpa banyak drama"],
-      ["noel", "Punya teman dekat untuk saling usil"]
+      ["noel", "Punya teman dekat yang bisa di ajak bercanda"]
     ]
   },
   {
@@ -305,7 +336,11 @@ function show(id) {
     document.getElementById(section).classList.add("hidden");
   });
   document.getElementById(id).classList.remove("hidden");
-}
+} 
+<div class="member-photo">
+  <img id="memberImage" src="" alt="SEEN member">
+</div>
+
 
 function startQuiz() {
   current = 0;
@@ -358,7 +393,8 @@ function showResult() {
   );
 
   const winner = winners[Math.floor(Math.random() * winners.length)];
-  const result = members[winner];
+  const result = members[winner]; 
+  showMemberPhoto(winner);
 
   document.getElementById("resultIcon").textContent = result.icon;
   document.getElementById("resultName").textContent = result.name;
