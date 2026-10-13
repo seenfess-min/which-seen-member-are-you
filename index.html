@@ -5,25 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Which SEEN Member Are You?</title>
+
 <style>
-.member-photo {
-  width: 180px;
-  height: 180px;
-  margin: 20px auto;
-  overflow: hidden;
-  border-radius: 18px;
-  border: 3px solid #9ed8ff;
-  box-shadow: 0 0 18px rgba(100, 190, 255, 0.35);
+* {
+  box-sizing: border-box;
 }
-
-.member-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -41,7 +27,7 @@ body {
   width: 100%;
   max-width: 470px;
   padding: 25px 20px;
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.95);
   border: 2px solid white;
   border-radius: 25px;
   box-shadow: 0 12px 35px #627dc52b;
@@ -66,7 +52,9 @@ h1 {
   margin: 18px 0 12px;
 }
 
-p { line-height: 1.65; }
+p {
+  line-height: 1.65;
+}
 
 .sub {
   color: #68799f;
@@ -101,7 +89,7 @@ button.answer {
   border: 1.5px solid #d5e0fa;
 }
 
-button.answer:active {
+button.answer:hover {
   background: #eaf0ff;
 }
 
@@ -127,7 +115,28 @@ button.answer:active {
   font-weight: bold;
 }
 
-.result-icon { font-size: 48px; }
+.member-photo {
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 3px solid #9ed8ff;
+  box-shadow: 0 0 18px rgba(100,190,255,.35);
+  background: #e5edff;
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.result-icon {
+  font-size: 48px;
+}
 
 .result-title {
   margin: 12px 0;
@@ -146,7 +155,9 @@ button.answer:active {
   font-size: 12px;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none !important;
+}
 </style>
 </head>
 
@@ -157,31 +168,42 @@ button.answer:active {
 
   <section id="home">
     <h1>which seen<br>member are you?</h1>
+
     <p class="sub">
       pagi yang hangat, siang yang penuh energi,
-      senja yang tenang, atau malam yang ramai? 
+      senja yang tenang, atau malam yang ramai?
     </p>
+
     <p>
       Jawab 10 pertanyaan dan temukan member SEEN
       yang paling cocok dengan kepribadianmu!
     </p>
+
     <button onclick="startQuiz()">START ♡</button>
   </section>
 
   <section id="quiz" class="hidden">
     <p class="sub" id="counter"></p>
-    <div class="progress"><div id="bar"></div></div>
+    <div class="progress">
+      <div id="bar"></div>
+    </div>
     <div class="question" id="question"></div>
     <div id="answers"></div>
   </section>
 
   <section id="result" class="hidden">
     <div class="result-icon" id="resultIcon"></div>
+
+    <div class="member-photo">
+      <img id="memberImage" src="" alt="SEEN member">
+    </div>
+
     <p class="sub">HASIL KUIS KAMU ADALAH...</p>
     <h2 class="result-title" id="resultName"></h2>
     <div class="tag" id="resultTag"></div>
     <p class="result-desc" id="resultDesc"></p>
     <p id="resultQuote"></p>
+
     <button onclick="shareResult()">bagikan hasil ke X ↗</button>
     <button class="secondary" onclick="startQuiz()">coba lagi ♡</button>
   </section>
@@ -191,34 +213,29 @@ button.answer:active {
 
 <script>
 const memberPhotos = {
-  Dndy: "dndy.jpg"
-  Jason: "jason.jpg",
-  Albian: "albian.jpg",
-  Noel: "noel.jpg"
+  dndy: "dndy.jpg",
+  jason: "jason.jpg",
+  albian: "albian.jpg",
+  noel: "noel.jpg"
 };
-
-function showMemberPhoto(memberName) {
-  const photo = document.getElementById("memberImage");
-  if (photo && memberPhotos[memberName]) {
-    photo.src = memberPhotos[memberName];
-  }
-}
 
 const members = {
   dndy: {
     name: "DNDY",
     icon: "🌅",
     tag: "THE CARING MORNING",
-    desc: "Kamu adalah sosok yang perhatian dan bisa diandalkan! Kamu suka berbagi informasi, memberi saran, dan mengingatkan orang-orang terdekatmu. Tapi di balik semua omonganmu, kamu benar-benar peduli dan ingin memastikan semua orang baik-baik saja.",
+    desc: "Kamu adalah sosok yang perhatian dan bisa diandalkan! Kamu suka berbagi informasi, memberi saran, dan mengingatkan orang-orang terdekatmu. Di balik semua omonganmu, kamu benar-benar peduli dan ingin memastikan semua orang baik-baik saja.",
     quote: "“eh, kalian udah tahu belum? sini aku kasih tahu!”"
   },
+
   jason: {
     name: "JASON",
     icon: "☀️",
     tag: "THE CHAOTIC AFTERNOON",
-    desc: "Kamu adalah sumber energi di mana pun kamu berada! Periang, dan apa adanya. Kamu suka membuat suasana lebih hidup dan biasanya langsung mengatakan apa yang kamu pikirkan. Bersamamu, suasana sepi bisa berubah jadi keramaian.",
+    desc: "Kamu adalah sumber energi di mana pun kamu berada! Periang dan apa adanya. Kamu suka membuat suasana lebih hidup dan biasanya langsung mengatakan apa yang kamu pikirkan. Bersamamu, suasana sepi bisa berubah jadi keramaian.",
     quote: "“YA UDAH BILANG AJA, NGAPAIN DIPIKIRIN LAMA-LAMA?”"
   },
+
   albian: {
     name: "ALBIAN",
     icon: "🌇",
@@ -226,12 +243,13 @@ const members = {
     desc: "Kamu cenderung pendiam dan nyaman mengamati keadaan dari jauh. Tapi jangan salah, isi kepalamu bisa ramai sendiri! Kadang diam, kadang bingung dengan perasaan sendiri, dan sesekali susah ditebak. Kamu punya dunia sendiri yang nggak selalu bisa dimengerti orang lain.",
     quote: "“aku kenapa, ya? gatau juga.”"
   },
+
   noel: {
     name: "NOEL",
     icon: "🌙",
     tag: "THE FEISTY NIGHT",
-    desc: "Kamu punya sisi galak yang justru menghibur! Gampang terpancing kalau teman mulai usil, suka adu mulut bercanda, dan reaksimu bisa jadi hiburan tersendiri. Apalagi kalau ketemu orang yang sama-sama suka cari gara-gara. Ribut sedikit? Sudah biasa!",
-    quote: "BUKAN AKU YANG MULAI, DIA DULUAN“—!!”"
+    desc: "Kamu punya sisi galak yang justru menghibur! Gampang terpancing kalau teman mulai usil, suka adu mulut bercanda, dan reaksimu bisa jadi hiburan tersendiri. Ribut sedikit? Sudah biasa!",
+    quote: "“GUE NGGAK MARAH! LO YANG NYEBELIN!”"
   }
 };
 
@@ -242,7 +260,7 @@ const questions = [
       ["dndy", "Paling banyak cerita dan berbagi informasi"],
       ["jason", "Bikin suasana ramai dengan energi sendiri"],
       ["albian", "Duduk santai sambil mengamati mereka"],
-      ["noel", "Kadang ikut rame, kadang cuma duduk menikmati suasana"]
+      ["noel", "Kadang ikut rame, kadang menikmati suasana"]
     ]
   },
   {
@@ -257,19 +275,19 @@ const questions = [
   {
     q: "3. Pilih waktu yang paling menggambarkan dirimu!",
     a: [
-      ["dndy", "Pagi yang hangat dan menenangkan 🌅"],
-      ["jason", "Siang yang cerah dan penuh energi ☀️"],
-      ["albian", "Senja yang tenang dan sedikit misterius 🌇"],
-      ["noel", "Malam yang terasa paling hidup 🌙"]
+      ["dndy", "Pagi yang hangat 🌅"],
+      ["jason", "Siang yang cerah ☀️"],
+      ["albian", "Senja yang tenang 🌇"],
+      ["noel", "Malam yang terasa hidup 🌙"]
     ]
   },
   {
     q: "4. Temanmu menyebalkan banget hari ini. Kamu...",
     a: [
-      ["dndy", "Menjelaskan panjang lebar kenapa dia salah"],
+      ["dndy", "Menjelaskan kenapa dia salah"],
       ["jason", "Langsung ngomong di depan orangnya"],
       ["albian", "Diam saja, malas menanggapi"],
-      ["noel", "Balas, sambil ngomel-ngomel"]
+      ["noel", "Balas sambil ngomel-ngomel"]
     ]
   },
   {
@@ -278,7 +296,7 @@ const questions = [
       ["dndy", "Si perhatian yang suka mengingatkan"],
       ["jason", "Si ceria yang energinya nggak habis-habis"],
       ["albian", "Si kalem yang kadang sulit ditebak"],
-      ["noel", "Si galak suka bercanda yang suka adu mulut"]
+      ["noel", "Si galak yang suka bercanda"]
     ]
   },
   {
@@ -287,13 +305,13 @@ const questions = [
       ["dndy", "Cerita ke orang-orang biar pada tahu"],
       ["jason", "Langsung bereaksi dan ngomong apa adanya"],
       ["albian", "Dengerin aja, nggak mau ikut campur"],
-      ["noel", "Lihat situasi, baru ikut nimbrung kalau menarik"]
+      ["noel", "Ikut nimbrung kalau menarik"]
     ]
   },
   {
     q: "7. Pilih suasana liburan favoritmu!",
     a: [
-      ["dndy", "Ngobrol santai di tempat yang nyaman"],
+      ["dndy", "Ngobrol santai di tempat nyaman"],
       ["jason", "Pergi ke tempat ramai dan mencoba banyak hal"],
       ["albian", "Menikmati pemandangan sambil bersantai"],
       ["noel", "Hangout bareng teman"]
@@ -304,7 +322,7 @@ const questions = [
     a: [
       ["dndy", "Menjelaskan kenapa dia harus berhenti"],
       ["jason", "Menggoda balik tanpa pikir panjang"],
-      ["albian", "Melihat dulu, ini serius atau cuma bercanda"],
+      ["albian", "Melihat dulu apakah dia bercanda"],
       ["noel", "Langsung protes"]
     ]
   },
@@ -314,7 +332,7 @@ const questions = [
       ["dndy", "Perhatian ke orang terdekat"],
       ["jason", "Membawa semangat dan menghidupkan suasana"],
       ["albian", "Menikmati waktu sendiri tanpa banyak drama"],
-      ["noel", "Punya teman dekat yang bisa di ajak bercanda"]
+      ["noel", "Punya teman dekat buat bercanda"]
     ]
   },
   {
@@ -335,16 +353,20 @@ function show(id) {
   ["home", "quiz", "result"].forEach(section => {
     document.getElementById(section).classList.add("hidden");
   });
-  document.getElementById(id).classList.remove("hidden");
-} 
-<div class="member-photo">
-  <img id="memberImage" src="" alt="SEEN member">
-</div>
 
+  document.getElementById(id).classList.remove("hidden");
+}
 
 function startQuiz() {
   current = 0;
-  scores = { dndy: 0, jason: 0, albian: 0, noel: 0 };
+
+  scores = {
+    dndy: 0,
+    jason: 0,
+    albian: 0,
+    noel: 0
+  };
+
   show("quiz");
   renderQuestion();
   window.scrollTo(0, 0);
@@ -366,9 +388,11 @@ function renderQuestion() {
 
   item.a.forEach(([member, label]) => {
     const button = document.createElement("button");
+
     button.className = "answer";
     button.textContent = label;
     button.onclick = () => chooseAnswer(member);
+
     container.appendChild(button);
   });
 }
@@ -388,13 +412,16 @@ function showResult() {
   document.getElementById("bar").style.width = "100%";
 
   const maxScore = Math.max(...Object.values(scores));
+
   const winners = Object.keys(scores).filter(
     member => scores[member] === maxScore
   );
 
-  const winner = winners[Math.floor(Math.random() * winners.length)];
-  const result = members[winner]; 
-  showMemberPhoto(winner);
+  const winner = winners[
+    Math.floor(Math.random() * winners.length)
+  ];
+
+  const result = members[winner];
 
   document.getElementById("resultIcon").textContent = result.icon;
   document.getElementById("resultName").textContent = result.name;
@@ -402,20 +429,32 @@ function showResult() {
   document.getElementById("resultDesc").textContent = result.desc;
   document.getElementById("resultQuote").textContent = result.quote;
 
+  const photo = document.getElementById("memberImage");
+  photo.src = memberPhotos[winner];
+  photo.alt = result.name + " - SEEN";
+
+  photo.onerror = function() {
+    this.removeAttribute("src");
+    this.alt = "Foto " + result.name + " belum tersedia";
+  };
+
   show("result");
   window.scrollTo(0, 0);
 }
 
 function shareResult() {
   const name = document.getElementById("resultName").textContent;
-  const text = `hasil kuis WHICH SEEN MEMBER ARE YOU? aku dapat ${name}! 💙 kamu dapat siapa? coba di sini: ${location.href}`;
 
-  window.open(
+  const text =
+    `hasil kuis WHICH SEEN MEMBER ARE YOU? aku dapat ${name}! 💙 kamu dapat siapa? coba di sini: ${window.location.href}`;
+
+  const url =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text),
-    "_blank"
-  );
+    encodeURIComponent(text);
+
+  window.open(url, "_blank");
 }
 </script>
+
 </body>
 </html>
