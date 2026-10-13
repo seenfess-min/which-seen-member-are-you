@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEEN VOTE CLUB ✦</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #78caff;
+  --deep: #3158b9;
+  --pink: #ffb8e8;
+  --ink: #17254d;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at top left, #d7f3ff, transparent 45%),
+    linear-gradient(145deg, #eefbff, #b9d5ff 50%, #f9dfff);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 3px solid #3158b9;
+  outline-offset: 4px;
+}
+
+.topbar {
+  padding: 18px 12px;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #3158b9;
+  border-bottom: 1px solid #ffffffb0;
+}
+
+.container {
+  width: min(920px, 92%);
+  margin: auto;
+  padding: 28px 0 45px;
+}
+
+.hero {
+  text-align: center;
+  padding: 32px 8px 26px;
+}
+
+.sticker {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid white;
+  border-radius: 30px;
+  background: #ffffffb8;
+  box-shadow: 3px 4px 0 #82b7ed;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(31px, 8vw, 64px);
+  line-height: 1.15;
+  margin: 24px 0 12px;
+  color: #3158b9;
+  text-shadow: 3px 3px 0 white, 6px 6px 0 #a3d6ff;
+}
+
+.hero p {
+  line-height: 1.7;
+  margin: 0 auto;
+  max-width: 480px;
+}
+
+.panel {
+  background: #ffffffc9;
+  border: 2px solid white;
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 7px 8px 0 #8db9e8;
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  margin: 0 0 8px;
+  color: #3158b9;
+}
+
+.subtitle {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  color: #53658c;
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.member-card {
+  min-width: 0;
+  border: 1px solid white;
+  border-radius: 18px;
+  padding: 15px 10px;
+  text-align: center;
+  background: linear-gradient(150deg, #f8fdff, #d6eaff);
+  box-shadow: 0 4px 0 #a6c9f0;
+}
+
+.member-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #6283bd;
+}
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 180px;
+  margin: 12px auto;
+  display: grid;
+  place-items: center;
+  border: 3px solid white;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #a9e6ff, #cbbcff, #ffcef0);
+  box-shadow: 0 0 0 2px #8ab8ed;
+  font-size: 42px;
+  overflow: hidden;
+}
+
+.avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-name {
+  font-weight: 700;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+
+.member-emoji {
+  margin-top: 4px;
+  font-size: 20px;
+}
+
+.vote-count {
+  font-size: 12px;
+  margin: 7px 0 12px;
+  color: #64749b;
+}
+
+.vote-btn,
+.share-btn {
+  border: 0;
+  border-radius: 30px;
+  padding: 11px 10px;
+  width: 100%;
+  color: white;
+  background: linear-gradient(100deg, #5888e7, #9b82e9);
+  box-shadow: 0 4px 0 #4765b7;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.vote-btn:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.notice {
+  display: none;
+  padding: 12px;
+  margin-top: 16px;
+  border-radius: 12px;
+  background: #e2f5ff;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.notice.show {
+  display: block;
+}
+
+.rank-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px dashed #a9c9ed;
+}
+
+.rank-row:last-child {
+  border-bottom: 0;
+}
+
+.rank-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 19px;
+  font-weight: 900;
+  color: #5888d5;
+  text-align: center;
+}
+
+.rank-name {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.rank-meta {
+  font-size: 12px;
+  color: #65759b;
+  margin: 4px 0 8px;
+}
+
+.bar {
+  width: 100%;
+  height: 9px;
+  border-radius: 20px;
+  background: #e1eaff;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #72d8ff, #9d8aff, #ffb6e7);
+  transition: width .4s ease;
+}
+
+.actions {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.share-btn {
+  background: linear-gradient(100deg, #3158b9, #638be9);
+}
+
+.reset-btn {
+  background: transparent;
+  border: 1px solid #8ca8d8;
+  color: #53658c;
+  border-radius: 24px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+footer {
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #62759d;
+  padding: 12px 10px;
+}
+
+@media (min-width: 600px) {
+  .member-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .panel {
+    padding: 28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  ✦ S E E N   V O T E   C L U B ✦
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <div class="sticker">
+      ✦ OFFICIAL FAN VOTING PROJECT ✦
+    </div>
+
+    <h1>VOTE FOR<br>YOUR SEEN!</h1>
+
+    <p>
+      Your pick, your power! 💿<br>
+      Choose your favorite member and
+      check out the ranking below.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2 class="section-title">01 / CAST YOUR VOTE</h2>
+
+    <p class="subtitle">
+      Choose your favorite member and cast your vote!
+      This is currently a demo voting website.
+    </p>
+
+    <div class="member-grid" id="memberGrid"></div>
+
+    <div class="notice" id="notice"
+         role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="panel">
+    <h2 class="section-title">02 / LIVE RANKING</h2>
+
+    <p class="subtitle">
+      Check the current ranking and vote distribution.
+    </p>
+
+    <div id="ranking"></div>
+
+    <div class="actions">
+      <button class="share-btn" id="shareBtn">
+        ↗ SHARE TO X
+      </button>
+
+      <button class="reset-btn" id="resetBtn">
+        RESET MY DEMO VOTE
+      </button>
+    </div>
+
+    <div class="notice" id="shareNotice"
+         role="status" aria-live="polite"></div>
+  </section>
+
+  <footer>
+    SEEN VOTE CLUB ✦ FAN-MADE PROJECT<br>
+    Not an official SEEN voting platform.
+  </footer>
+
+</main>
+
+<script>
+// SEEN MEMBERS
+// Add each member's photo URL in the photo field.
+// Leave it empty until the photo has been uploaded.
+
+const members = [
+  {
+    id: "m1",
+    name: "Dndy",
+    emoji: "😎",
+    photo: ""
+  },
+  {
+    id: "m2",
+    name: "Jason",
+    emoji: "🦔",
+    photo: ""
+  },
+  {
+    id: "m3",
+    name: "Noel",
+    emoji: "🐧",
+    photo: ""
+  },
+  {
+    id: "m4",
+    name: "Albian",
+    emoji: "🤨",
+    photo: ""
+  }
+];
+
+const STORAGE_KEY = "seenVoteClubDemo2026";
+const VOTE_KEY = "seenVoteClubMyVote2026";
+
+function getVotes() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(STORAGE_KEY)
+    );
+
+    const votes = {};
+
+    members.forEach(member => {
+      votes[member.id] =
+        saved && Number.isFinite(saved[member.id])
+          ? Math.max(0, saved[member.id])
+          : 0;
+    });
+
+    return votes;
+  } catch {
+    return Object.fromEntries(
+      members.map(member => [member.id, 0])
+    );
+  }
+}
+
+function getMyVote() {
+  try {
+    return localStorage.getItem(VOTE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function showNotice(message) {
+  const notice = document.getElementById("notice");
+  notice.textContent = message;
+  notice.classList.add("show");
+}
+
+function castVote(id) {
+  if (!members.some(member => member.id === id)) {
+    return;
+  }
+
+  if (getMyVote()) {
+    showNotice(
+      "You've already voted on this browser! " +
+      "Reset your demo vote to test again."
+    );
+    return;
+  }
+
+  try {
+    const votes = getVotes();
+    votes[id] += 1;
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(votes)
+    );
+
+    localStorage.setItem(VOTE_KEY, id);
+
+    showNotice(
+      "Your demo vote has been recorded! ✦ Thank you!"
+    );
+
+    render();
+  } catch {
+    showNotice(
+      "Your browser could not save this vote. " +
+      "Please check your storage settings."
+    );
+  }
+}
+
+function renderMembers() {
+  const grid = document.getElementById("memberGrid");
+  const myVote = getMyVote();
+  const votes = getVotes();
+
+  grid.innerHTML = members.map((member, index) => {
+    const avatarContent = member.photo
+      ? `<img src="${escapeHTML(member.photo)}"
+              alt="${escapeHTML(member.name)}"
+              onerror="this.style.display='none';
+              this.nextElementSibling.style.display='grid'">
+         <span style="display:none">${member.emoji}</span>`
+      : member.emoji;
+
+    return `
+      <article class="member-card">
+        <div class="member-number">
+          SEEN 00${index + 1}
+        </div>
+
+        <div class="avatar">
+          ${avatarContent}
+        </div>
+
+        <div class="member-name">
+          ${escapeHTML(member.name)}
+        </div>
+
+        <div class="member-emoji">
+          ${member.emoji}
+        </div>
+
+        <div class="vote-count">
+          ${votes[member.id]} votes
+        </div>
+
+        <button
+          class="vote-btn"
+          data-member="${member.id}"
+          ${myVote ? "disabled" : ""}
+        >
+          ${myVote === member.id
+            ? "✓ VOTED"
+            : myVote
+              ? "VOTE SUBMITTED"
+              : "VOTE NOW ✦"}
+        </button>
+      </article>
+    `;
+  }).join("");
+
+  grid.querySelectorAll("[data-member]").forEach(button => {
+    button.addEventListener("click", () => {
+      castVote(button.dataset.member);
+    });
+  });
+}
+
+function renderRanking() {
+  const votes = getVotes();
+
+  const total = Object.values(votes).reduce(
+    (sum, count) => sum + count,
+    0
+  );
+
+  const sorted = members
+    .map(member => ({
+      ...member,
+      votes: votes[member.id]
+    }))
+    .sort((a, b) => b.votes - a.votes);
+
+  document.getElementById("ranking").innerHTML =
+    sorted.map((member, index) => {
+      const percent = total
+        ? (member.votes / total) * 100
+        : 0;
+
+      return `
+        <div class="rank-row">
+          <div class="rank-number">
+            ${String(index + 1).padStart(2, "0")}
+          </div>
+
+          <div>
+            <div class="rank-name">
+              ${member.emoji}
+              ${escapeHTML(member.name)}
+            </div>
+
+            <div class="rank-meta">
+              ${member.votes} votes · ${percent.toFixed(0)}%
+            </div>
+
+            <div class="bar">
+              <div class="bar-fill"
+                   style="width:${percent}%"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+}
+
+function render() {
+  renderMembers();
+  renderRanking();
+}
+
+document.getElementById("shareBtn")
+  .addEventListener("click", () => {
+    const message =
+      "I'm voting for my favorite SEEN member! ✦ " +
+      window.location.href +
+      " #SEEN #SEENVoting";
+
+    const url =
+      "https://twitter.com/intent/tweet?text=" +
+      encodeURIComponent(message);
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
+
+document.getElementById("resetBtn")
+  .addEventListener("click", () => {
+    const myVote = getMyVote();
+
+    if (!myVote) {
+      showNotice("You haven't voted yet.");
+      return;
+    }
+
+    try {
+      const votes = getVotes();
+
+      votes[myVote] = Math.max(
+        0,
+        votes[myVote] - 1
+      );
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(votes)
+      );
+
+      localStorage.removeItem(VOTE_KEY);
+
+      document.getElementById("notice")
+        .classList.remove("show");
+
+      render();
+    } catch {
+      showNotice(
+        "Could not reset the demo vote in this browser."
+      );
+    }
+  });
+
+render();
+</script>
+
+</body>
+</html>
