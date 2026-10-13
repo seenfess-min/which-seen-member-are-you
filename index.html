@@ -2,633 +2,1040 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Which SEEN Member Are You?</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101a38">
+<title>Which SEEN Member Are You?</title>
 
-  <style>
-    :root {
-      --navy: #101B3D;
-      --deep-blue: #263F73;
-      --baby-blue: #B8D7F5;
-      --silver: #DCE5F2;
-      --white: #FFFFFF;
-      --text: #172647;
-    }
+<style>
+:root {
+  --navy: #101a38;
+  --navy2: #192746;
+  --blue: #2c4772;
+  --lightblue: #b9d7f5;
+  --silver: #e0e8f4;
+  --white: #ffffff;
+  --muted: #afbed5;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 24px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--white);
-      background:
-        radial-gradient(circle at top right, #263F73 0%, transparent 40%),
-        linear-gradient(145deg, #101B3D, #172A52 60%, #263F73);
-    }
+body {
+  min-height: 100vh;
+  padding: 22px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(ellipse at 10% 10%, #263e67 0%, transparent 43%),
+    radial-gradient(ellipse at 90% 90%, #1b3055 0%, transparent 40%),
+    var(--navy);
+}
 
-    button {
-      font: inherit;
-    }
+button {
+  font: inherit;
+  cursor: pointer;
+}
 
-    .app {
-      width: 100%;
-      max-width: 620px;
-      margin: auto;
-    }
+button:focus-visible {
+  outline: 3px solid var(--lightblue);
+  outline-offset: 3px;
+}
 
-    .top-label {
-      text-align: center;
-      color: var(--baby-blue);
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 4px;
-      margin-bottom: 12px;
-    }
+.app {
+  width: 100%;
+  max-width: 560px;
+  margin: auto;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+.screen {
+  display: none;
+  animation: appear 0.35s ease;
+}
 
-    .header h1 {
-      margin: 0;
-      font-size: clamp(28px, 7vw, 43px);
-      line-height: 1.15;
-      letter-spacing: -1px;
-    }
+.screen.active {
+  display: block;
+}
 
-    .header h1 span {
-      color: var(--baby-blue);
-    }
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .subtitle {
-      margin: 12px 0 0;
-      color: var(--silver);
-      font-size: 14px;
-      line-height: 1.7;
-    }
+/* PEMBUKA */
 
-    .card {
-      padding: 25px;
-      border: 1px solid rgba(220, 229, 242, 0.65);
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.97);
-      color: var(--text);
-      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22);
-    }
+.intro {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 62px 25px 50px;
+  border: 1px solid rgba(224,232,244,0.3);
+  border-radius: 26px;
+  background: linear-gradient(145deg, #243a60, #111d3a 75%);
+  box-shadow: 0 25px 65px rgba(0,0,0,0.25);
+}
 
-    .step-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-      color: var(--deep-blue);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+.intro::before,
+.intro::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(185,215,245,0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
 
-    .progress-track {
-      height: 6px;
-      border-radius: 99px;
-      background: #E5EBF4;
-      overflow: hidden;
-      margin-bottom: 25px;
-    }
+.intro::before {
+  width: 270px;
+  height: 270px;
+  top: -185px;
+  right: -100px;
+}
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #263F73, #8BBBEA);
-      border-radius: 99px;
-      transition: width 0.25s ease;
-    }
+.intro::after {
+  width: 240px;
+  height: 240px;
+  bottom: -180px;
+  left: -100px;
+}
 
-    .question {
-      margin: 0 0 22px;
-      font-size: 22px;
-      line-height: 1.4;
-    }
+.intro-line {
+  width: 48px;
+  height: 3px;
+  margin: 0 auto 28px;
+  border-radius: 20px;
+  background: var(--lightblue);
+}
 
-    .answers {
-      display: grid;
-      gap: 11px;
-    }
+.intro h1 {
+  position: relative;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: normal;
+  font-size: clamp(35px, 8vw, 52px);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
 
-    .answer {
-      width: 100%;
-      padding: 15px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-      line-height: 1.5;
-      color: var(--text);
-      background: #F7F9FC;
-      border: 1.5px solid #DCE5F2;
-      border-radius: 13px;
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
+.intro h1 span {
+  display: block;
+  color: var(--lightblue);
+  font-style: italic;
+}
 
-    .answer:hover {
-      border-color: #7EADE0;
-      background: #EFF6FF;
-    }
+.intro-description {
+  position: relative;
+  max-width: 340px;
+  margin: 0 auto 34px;
+  color: #d0daea;
+  font-size: 14px;
+  line-height: 1.9;
+}
 
-    .answer.selected {
-      border-color: var(--deep-blue);
-      background: #E8F1FC;
-      box-shadow: 0 0 0 2px rgba(38, 63, 115, 0.08);
-    }
+.start-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-width: 190px;
+  padding: 16px 24px;
+  border: 1px solid var(--silver);
+  border-radius: 8px;
+  background: var(--silver);
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  transition: 0.2s ease;
+}
 
-    .letter {
-      width: 30px;
-      height: 30px;
-      min-width: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 9px;
-      color: var(--deep-blue);
-      background: var(--silver);
-      font-weight: bold;
-      font-size: 12px;
-    }
+.start-button:hover {
+  background: var(--lightblue);
+  transform: translateY(-2px);
+}
 
-    .answer.selected .letter {
-      color: white;
-      background: var(--deep-blue);
-    }
+.start-arrow {
+  font-size: 18px;
+}
 
-    .navigation {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-    }
+/* PERTANYAAN */
 
-    .nav-button {
-      min-height: 46px;
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--deep-blue);
-      font-weight: bold;
-      cursor: pointer;
-    }
+.quiz-card {
+  padding: 29px 24px;
+  border: 1px solid rgba(224,232,244,0.23);
+  border-radius: 22px;
+  background: rgba(19,31,61,0.95);
+  box-shadow: 0 20px 55px rgba(0,0,0,0.2);
+}
 
-    .back-button {
-      color: var(--deep-blue);
-      background: white;
-    }
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 17px;
+}
 
-    .next-button {
-      flex: 1;
-      color: white;
-      background: var(--deep-blue);
-    }
+.quiz-label {
+  color: var(--lightblue);
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
 
-    .nav-button:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
+.question-number {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
 
-    .message {
-      min-height: 18px;
-      margin-top: 10px;
-      text-align: center;
-      color: #A33145;
-      font-size: 12px;
-    }
+.progress-track {
+  height: 4px;
+  width: 100%;
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #2c3a59;
+}
 
-    .result {
-      text-align: center;
-    }
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #5579aa, var(--lightblue));
+  transition: width 0.3s ease;
+}
 
-    .result-kicker {
-      color: var(--deep-blue);
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 3px;
-    }
+.question-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(25px, 6vw, 32px);
+  font-weight: normal;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
 
-    .result h2 {
-      margin: 10px 0 18px;
-      font-size: 30px;
-      color: var(--navy);
-    }
+.question-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
 
-    .result-photo {
-      display: block;
-      width: 100%;
-      max-width: 320px;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      margin: 0 auto 20px;
-      border: 4px solid var(--silver);
-      border-radius: 18px;
-      background: #E8EEF7;
-    }
+.answers {
+  display: grid;
+  gap: 12px;
+}
 
-    .member-title {
-      margin: 0 0 18px;
-      color: var(--deep-blue);
-      font-size: 20px;
-    }
+.answer-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 13px;
+  border: 1px solid #354665;
+  border-radius: 12px;
+  background: var(--navy2);
+  color: #edf2fa;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.7;
+  transition: 0.2s ease;
+}
 
-    .result-description {
-      color: #40516D;
-      text-align: left;
-      font-size: 14px;
-      line-height: 1.9;
-    }
+.answer-button:hover {
+  border-color: var(--lightblue);
+  background: #223657;
+}
 
-    .result-description p {
-      margin: 0 0 13px;
-    }
+.answer-button.selected {
+  border-color: var(--lightblue);
+  background: #2b4267;
+}
 
-    .restart-button {
-      width: 100%;
-      margin-top: 16px;
-      min-height: 48px;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      color: white;
-      background: var(--deep-blue);
-      font-weight: bold;
-      cursor: pointer;
-    }
+.answer-letter {
+  flex-shrink: 0;
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #637895;
+  border-radius: 8px;
+  color: var(--lightblue);
+  font-size: 12px;
+}
 
-    .footer {
-      margin-top: 22px;
-      text-align: center;
-      color: var(--silver);
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
+.answer-button.selected .answer-letter {
+  background: var(--lightblue);
+  color: var(--navy);
+  border-color: var(--lightblue);
+}
 
-    .hidden {
-      display: none !important;
-    }
+.quiz-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+}
 
-    @media (max-width: 420px) {
-      .card {
-        padding: 20px 16px;
-      }
+.nav-button {
+  min-width: 105px;
+  padding: 12px 16px;
+  border: 1px solid #566987;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--silver);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.2s ease;
+}
 
-      .question {
-        font-size: 20px;
-      }
+.nav-button:hover:not(:disabled) {
+  border-color: var(--lightblue);
+  background: #253959;
+}
 
-      .answer {
-        padding: 13px 12px;
-      }
-    }
-  </style>
+.nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-button.next {
+  border-color: var(--silver);
+  background: var(--silver);
+  color: var(--navy);
+}
+
+.nav-button.next:hover:not(:disabled) {
+  background: var(--lightblue);
+}
+
+/* HASIL AKHIR */
+
+.result-card {
+  padding: 30px 23px;
+  border: 1px solid rgba(224,232,244,0.25);
+  border-radius: 22px;
+  background: linear-gradient(150deg, #22395e, #121e3c 75%);
+  text-align: center;
+  box-shadow: 0 20px 55px rgba(0,0,0,0.22);
+}
+
+.result-eyebrow {
+  color: var(--lightblue);
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.result-heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 7vw, 39px);
+  font-weight: normal;
+  margin-bottom: 25px;
+}
+
+.photo-frame {
+  width: 100%;
+  max-width: 290px;
+  margin: 0 auto 24px;
+  padding: 7px;
+  border: 1px solid rgba(224,232,244,0.65);
+  border-radius: 14px;
+  background: rgba(224,232,244,0.08);
+}
+
+.member-photo,
+.photo-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 9px;
+}
+
+.member-photo {
+  object-fit: cover;
+  object-position: center;
+  background: #1b2a49;
+}
+
+.photo-placeholder {
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: linear-gradient(145deg, #2b456e, #172440);
+  color: var(--lightblue);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+}
+
+.member-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 36px;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+
+.member-title {
+  color: var(--lightblue);
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  line-height: 1.8;
+  margin-bottom: 21px;
+}
+
+.result-divider {
+  width: 44px;
+  height: 2px;
+  margin: 0 auto 20px;
+  background: var(--lightblue);
+}
+
+.personality-title {
+  color: var(--silver);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+.personality-description {
+  max-width: 410px;
+  margin: 0 auto 27px;
+  color: #d3deed;
+  font-size: 14px;
+  line-height: 1.95;
+}
+
+.result-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.result-button {
+  min-height: 46px;
+  padding: 12px 10px;
+  border: 1px solid var(--silver);
+  border-radius: 8px;
+  background: var(--silver);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.result-button:hover {
+  background: var(--lightblue);
+  transform: translateY(-2px);
+}
+
+.result-button.secondary {
+  border-color: #657794;
+  background: transparent;
+  color: var(--silver);
+}
+
+.result-button.secondary:hover {
+  background: #293d5d;
+}
+
+.result-note {
+  margin-top: 20px;
+  color: #9eb0ca;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 14px 10px;
+  }
+
+  .intro {
+    padding: 49px 18px 40px;
+  }
+
+  .quiz-card,
+  .result-card {
+    padding: 24px 16px;
+  }
+
+  .answer-button {
+    font-size: 12px;
+  }
+
+  .result-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="app">
-    <div class="top-label">THE SEEN EXPERIENCE</div>
+<main class="app">
 
-    <header class="header">
-      <h1>WHICH SEEN<br><span>MEMBER ARE YOU?</span></h1>
-      <p class="subtitle">
-        7 questions. 4 personalities.<br>
-        Let's find your SEEN match!
+  <!-- PEMBUKA -->
+  <section id="introScreen" class="screen active">
+    <div class="intro">
+      <div class="intro-line"></div>
+
+      <h1>
+        Which SEEN
+        <span>Member Are You?</span>
+      </h1>
+
+      <p class="intro-description">
+        Yuk, cari tahu member SEEN yang paling cocok
+        dengan kepribadian dan vibes kamu!
       </p>
-    </header>
 
-    <section class="card" id="quizCard">
-      <div class="step-row">
-        <span id="stepLabel">QUESTION 01</span>
-        <span id="stepCount">01 / 07</span>
+      <button id="startButton" class="start-button" type="button">
+        START <span class="start-arrow">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- KUIS -->
+  <section id="quizScreen" class="screen">
+    <div class="quiz-card">
+
+      <div class="quiz-top">
+        <span class="quiz-label">SEEN PERSONALITY QUIZ</span>
+        <span id="questionNumber" class="question-number">
+          PERTANYAAN 01 / 07
+        </span>
       </div>
 
       <div
+        id="progressTrack"
         class="progress-track"
         role="progressbar"
-        aria-label="Quiz progress"
+        aria-label="Kemajuan kuis"
         aria-valuemin="0"
         aria-valuemax="7"
         aria-valuenow="0"
-        id="progressTrack"
       >
-        <div class="progress-fill" id="progressFill"></div>
+        <div id="progressBar" class="progress-bar"></div>
       </div>
 
-      <h2 class="question" id="questionText"></h2>
-      <div class="answers" id="answers"></div>
+      <h2 id="questionTitle" class="question-title"></h2>
 
-      <div class="navigation">
-        <button class="nav-button back-button" id="backButton" type="button">
-          ← Back
+      <p id="questionSubtitle" class="question-subtitle"></p>
+
+      <div id="answers" class="answers"></div>
+
+      <div class="quiz-navigation">
+        <button id="backButton" class="nav-button" type="button">
+          ← KEMBALI
         </button>
-        <button class="nav-button next-button" id="nextButton" type="button">
-          Next →
+
+        <button
+          id="nextButton"
+          class="nav-button next"
+          type="button"
+          disabled
+        >
+          LANJUT →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HASIL -->
+  <section id="resultScreen" class="screen">
+    <div class="result-card">
+
+      <p class="result-eyebrow">YOUR SEEN MATCH</p>
+
+      <h2 class="result-heading">Your result is...</h2>
+
+      <div class="photo-frame">
+        <img
+          id="memberPhoto"
+          class="member-photo"
+          src=""
+          alt="Foto member SEEN"
+        >
+        <div id="photoPlaceholder" class="photo-placeholder">
+          SEEN
+        </div>
+      </div>
+
+      <h3 id="memberName" class="member-name"></h3>
+      <p id="memberTitle" class="member-title"></p>
+
+      <div class="result-divider"></div>
+
+      <p class="personality-title">KEPRIBADIAN KAMU</p>
+
+      <p
+        id="personalityDescription"
+        class="personality-description"
+      ></p>
+
+      <div class="result-actions">
+        <button id="shareButton" class="result-button" type="button">
+          SHARE TO X ↗
+        </button>
+
+        <button
+          id="restartButton"
+          class="result-button secondary"
+          type="button"
+        >
+          COBA LAGI ↻
         </button>
       </div>
 
-      <div class="message" id="message" aria-live="polite"></div>
-    </section>
+      <p class="result-note">
+        Kuis ini dibuat untuk seru-seruan sesama SEEN fans.
+        Hasilnya bukan penilaian kepribadian yang sebenarnya.
+      </p>
+    </div>
+  </section>
 
-    <section class="card result hidden" id="resultCard">
-      <div class="result-kicker">YOUR SEEN MATCH IS...</div>
-      <h2 id="resultName"></h2>
+</main>
 
-      <img
-        class="result-photo"
-        id="resultPhoto"
-        src=""
-        alt="SEEN member"
-      >
+<script>
+/* DATA MEMBER */
 
-      <h3 class="member-title" id="resultTitle"></h3>
+const members = {
+  dndy: {
+    name: "DNDY",
+    title: "THE MORNING ACHIEVER",
+    image: "dndy.jpg",
+    description:
+      "Kamu tipe orang yang teratur, punya tujuan, dan suka mempersiapkan sesuatu dengan baik. Kamu senang kalau semuanya berjalan sesuai rencana, tetapi tetap bisa bersikap ramah kepada orang lain. Teman-teman mungkin melihatmu sebagai sosok yang bisa diandalkan dan selalu berusaha memberikan yang terbaik."
+  },
 
-      <div class="result-description" id="resultDescription"></div>
+  jason: {
+    name: "Jason",
+    title: "THE ENERGETIC AFTERNOON",
+    image: "jason.jpg",
+    description:
+      "Kamu punya energi yang menyenangkan dan bisa membuat suasana jadi lebih hidup. Kamu mudah bersemangat saat mencoba hal baru dan senang menghabiskan waktu bersama orang-orang terdekat. Kehadiranmu bisa membawa keceriaan, dan kamu biasanya tidak ragu menunjukkan antusiasmemu."
+  },
 
-      <button class="restart-button" id="restartButton" type="button">
-        ↻ TAKE THE QUIZ AGAIN
-      </button>
-    </section>
+  albian: {
+    name: "Albian",
+    title: "THE UNEXPECTED SUNSET",
+    image: "albian.jpg",
+    description:
+      "Kamu mungkin terlihat tenang atau pendiam saat pertama kali bertemu orang baru, tetapi sebenarnya ada banyak sisi menarik dalam dirimu. Kamu suka mengamati keadaan sebelum ikut terlibat. Saat sudah merasa nyaman, sisi humoris dan unikmu bisa muncul tanpa diduga. Kamu punya caramu sendiri untuk membuat orang lain merasa nyaman."
+  },
 
-    <footer class="footer">MADE WITH LOVE FOR SEEN ♡</footer>
-  </main>
+  noel: {
+    name: "Noel",
+    title: "THE CHILL NIGHT",
+    image: "noel.jpg",
+    description:
+      "Kamu santai, fleksibel, dan lebih suka menjalani sesuatu sesuai suasana hati. Kamu tidak selalu membutuhkan rencana yang rumit untuk menikmati hari. Kamu bisa menikmati waktu sendiri maupun bersama teman, selama suasananya terasa nyaman. Buatmu, menjadi diri sendiri jauh lebih penting daripada mengikuti ekspektasi orang lain."
+  }
+};
 
-  <script>
-    /*
-      IMPORTANT:
-      Put all four member photos in the same folder as index.html.
-      Make sure each filename and file extension below match GitHub exactly.
-    */
+/* SEMUA PERTANYAAN DAN JAWABAN DALAM BAHASA INDONESIA */
 
-    const members = {
-      dndy: {
-        name: "DNDY",
-        title: "THE MORNING ACHIEVER",
-        photo: "dndy.jpg",
-        description: [
-          "Kamu tipe orang yang suka menjalani hari dengan penuh kegiatan. Buatmu, punya sesuatu untuk dilakukan bikin hari terasa lebih bermakna, apalagi kalau bisa memulai semuanya sejak pagi.",
-          "Kamu merasa lebih nyaman ketika punya rencana dan aktivitas yang bisa dijalani. Hari yang produktif adalah caramu menikmati waktu dan membuat setiap hari terasa berarti."
-        ]
+const questions = [
+  {
+    question: "Seperti apa pagi yang ideal buat kamu?",
+    subtitle: "Pilih yang paling menggambarkan dirimu.",
+    answers: [
+      {
+        text: "Bangun dan langsung menjalani rencana hari ini.",
+        score: "dndy"
       },
-
-      jason: {
-        name: "JASON",
-        title: "THE ENERGETIC AFTERNOON",
-        photo: "jason.jpg",
-        description: [
-          "Kamu punya energi yang gampang menular ke orang lain. Kamu mudah akrab dengan orang baru, suka mencoba hal-hal yang menarik, dan punya selera gaya yang membuatmu bebas mengekspresikan diri.",
-          "Buatmu, hidup terasa lebih menyenangkan saat bisa bertemu orang baru, berbagi tawa, dan mencoba pengalaman berbeda. Kamu juga nggak takut menunjukkan sisi stylish dan kepribadianmu."
-        ]
+      {
+        text: "Menikmati pagi dengan tenang tanpa terburu-buru.",
+        score: "albian"
       },
-
-      albian: {
-        name: "ALBIAN",
-        title: "THE UNEXPECTED SUNSET",
-        photo: "albian.jpg",
-        description: [
-          "Kamu mungkin nggak selalu banyak bicara atau menunjukkan semua sisi dirimu kepada orang lain. Namun, di balik sikapmu yang pendiam, ada sisi humor yang muncul di saat tak terduga dan sering kali berhasil membuat orang di sekitarmu terkejut sekaligus tertawa.",
-          "Kamu nggak harus selalu menjadi pusat perhatian untuk membuat orang mengingatmu. Justru sisi dirimu yang sulit ditebak itulah yang membuat orang ingin mengenalmu lebih jauh."
-        ]
+      {
+        text: "Bangun santai dan mengikuti suasana hati.",
+        score: "noel"
       },
-
-      noel: {
-        name: "NOEL",
-        title: "THE CHILL NIGHT",
-        photo: "noel.jpg",
-        description: [
-          "Kamu bisa menikmati kebersamaan dan mengobrol dengan orang lain tanpa harus selalu menjadi pusat perhatian. Kamu punya cara sendiri untuk menunjukkan kepribadianmu, dengan energi yang lebih santai tetapi tetap menyenangkan saat orang mengenalmu lebih dekat.",
-          "Kamu tahu kapan harus ikut meramaikan suasana dan kapan cukup menikmati momen. Nggak harus paling ramai untuk bisa nyambung dengan orang lain dan meninggalkan kesan yang menyenangkan."
-        ]
+      {
+        text: "Langsung bersemangat melakukan banyak hal.",
+        score: "jason"
       }
-    };
+    ]
+  },
 
-    const questions = [
+  {
+    question: "Kalau punya satu hari libur, kamu mau ngapain?",
+    subtitle: "Bayangkan kamu bebas melakukan apa saja.",
+    answers: [
       {
-        question: "Kalau bangun di pagi hari, kamu biasanya…",
-        answers: [
-          { text: "Langsung bersiap dan mulai menjalani aktivitas.", member: "dndy" },
-          { text: "Menikmati pagi dengan tenang sebelum mulai beraktivitas.", member: "albian" },
-          { text: "Bangun santai dulu, baru memikirkan mau ngapain.", member: "noel" },
-          { text: "Bangun dengan semangat dan siap menjalani hari.", member: "jason" }
-        ]
+        text: "Pergi jalan-jalan dan mencoba kegiatan seru.",
+        score: "jason"
       },
       {
-        question: "Tiba-tiba kamu punya satu hari kosong tanpa rencana. Apa yang kamu lakukan?",
-        answers: [
-          { text: "Cari kegiatan seru atau ajak orang lain jalan.", member: "jason" },
-          { text: "Lihat situasi dulu, kalau ada yang menarik baru ikut.", member: "noel" },
-          { text: "Bikin jadwal kegiatan supaya hariku tetap produktif.", member: "dndy" },
-          { text: "Menikmati waktu sendiri dan melakukan sesuatu sesuai mood.", member: "albian" }
-        ]
+        text: "Menjalani hari secara spontan.",
+        score: "noel"
       },
       {
-        question: "Saat berada di lingkungan yang dipenuhi orang baru, kamu akan…",
-        answers: [
-          { text: "Mengamati suasana dulu sebelum mulai banyak bicara.", member: "albian" },
-          { text: "Mengobrol kalau ada kesempatan, tapi nggak harus dengan semua orang.", member: "noel" },
-          { text: "Langsung menyapa dan mencoba berkenalan dengan banyak orang.", member: "jason" },
-          { text: "Fokus dengan kegiatanku sendiri sambil tetap ramah.", member: "dndy" }
-        ]
+        text: "Menyusun rencana supaya waktuku tidak terbuang.",
+        score: "dndy"
       },
       {
-        question: "Kalau memilih outfit untuk jalan-jalan, kamu lebih suka…",
-        answers: [
-          { text: "Casual dengan sentuhan unik yang sesuai kepribadianku.", member: "noel" },
-          { text: "Stylish dan fashionable, suka bereksperimen dengan outfit.", member: "jason" },
-          { text: "Santai dan simpel, nggak perlu terlalu mencolok.", member: "albian" },
-          { text: "Nyaman dan praktis supaya bebas beraktivitas seharian.", member: "dndy" }
-        ]
-      },
-      {
-        question: "Teman-temanmu paling mungkin mengenalmu sebagai orang yang…",
-        answers: [
-          { text: "Ceria, penuh energi, dan gampang akrab dengan siapa saja.", member: "jason" },
-          { text: "Teratur dan selalu punya sesuatu untuk dikerjakan.", member: "dndy" },
-          { text: "Pendiam, tetapi kadang tingkahnya nggak terduga.", member: "albian" },
-          { text: "Santai dan asyik diajak ngobrol tanpa harus selalu ramai.", member: "noel" }
-        ]
-      },
-      {
-        question: "Kalau sedang kumpul bersama teman-teman, kamu biasanya…",
-        answers: [
-          { text: "Ikut bercanda dan ngobrol, tetapi tetap dengan energiku sendiri.", member: "noel" },
-          { text: "Lebih banyak mendengarkan, lalu tiba-tiba melontarkan sesuatu yang lucu.", member: "albian" },
-          { text: "Mengajak melakukan sesuatu supaya waktu nggak terbuang sia-sia.", member: "dndy" },
-          { text: "Menghidupkan suasana dan membuat semua orang ikut seru-seruan.", member: "jason" }
-        ]
-      },
-      {
-        question: "Pilih suasana yang paling menggambarkan dirimu!",
-        answers: [
-          { text: "Senja yang tenang dengan kejutan kecil yang menyenangkan.", member: "albian" },
-          { text: "Pagi yang cerah, penuh rencana dan kesempatan baru.", member: "dndy" },
-          { text: "Siang yang ramai, penuh tawa dan aktivitas seru.", member: "jason" },
-          { text: "Malam yang santai, nyaman, dan penuh obrolan menarik.", member: "noel" }
-        ]
+        text: "Menikmati waktu sendiri sesuai suasana hati.",
+        score: "albian"
       }
-    ];
+    ]
+  },
 
-    let currentQuestion = 0;
-    let selections = Array(questions.length).fill(null);
+  {
+    question: "Kalau bertemu orang baru, kamu biasanya...",
+    subtitle: "Mana yang paling mirip dengan dirimu?",
+    answers: [
+      {
+        text: "Mengamati dulu sebelum banyak bicara.",
+        score: "albian"
+      },
+      {
+        text: "Mulai ngobrol kalau ada kesempatan.",
+        score: "noel"
+      },
+      {
+        text: "Menyapa duluan dan mencairkan suasana.",
+        score: "jason"
+      },
+      {
+        text: "Tetap fokus, tetapi berusaha ramah.",
+        score: "dndy"
+      }
+    ]
+  },
 
-    const questionText = document.getElementById("questionText");
-    const answersBox = document.getElementById("answers");
-    const stepLabel = document.getElementById("stepLabel");
-    const stepCount = document.getElementById("stepCount");
-    const progressFill = document.getElementById("progressFill");
-    const progressTrack = document.getElementById("progressTrack");
-    const backButton = document.getElementById("backButton");
-    const nextButton = document.getElementById("nextButton");
-    const message = document.getElementById("message");
-    const quizCard = document.getElementById("quizCard");
-    const resultCard = document.getElementById("resultCard");
+  {
+    question: "Gaya pakaian mana yang paling cocok buat kamu?",
+    subtitle: "Pilih gaya yang sesuai dengan kepribadianmu.",
+    answers: [
+      {
+        text: "Kasual dengan sentuhan yang unik.",
+        score: "noel"
+      },
+      {
+        text: "Modis dan terlihat percaya diri.",
+        score: "jason"
+      },
+      {
+        text: "Simpel, nyaman, dan tidak berlebihan.",
+        score: "albian"
+      },
+      {
+        text: "Praktis dan cocok untuk aktivitas hari ini.",
+        score: "dndy"
+      }
+    ]
+  },
 
-    function renderQuestion() {
-      const question = questions[currentQuestion];
+  {
+    question: "Menurutmu, teman-teman melihatmu sebagai orang yang...",
+    subtitle: "Pilih deskripsi yang paling mendekati dirimu.",
+    answers: [
+      {
+        text: "Ceria dan membawa energi positif.",
+        score: "jason"
+      },
+      {
+        text: "Teratur dan bisa diandalkan.",
+        score: "dndy"
+      },
+      {
+        text: "Tenang, tetapi kadang suka bikin kejutan.",
+        score: "albian"
+      },
+      {
+        text: "Santai dan enak diajak ngobrol.",
+        score: "noel"
+      }
+    ]
+  },
 
-      stepLabel.textContent =
-        "QUESTION " + String(currentQuestion + 1).padStart(2, "0");
+  {
+    question: "Kalau nongkrong bareng teman, kamu lebih suka...",
+    subtitle: "Pilih suasana kumpul favoritmu.",
+    answers: [
+      {
+        text: "Ngobrol santai tanpa harus mengikuti jadwal.",
+        score: "noel"
+      },
+      {
+        text: "Lebih banyak mendengarkan, lalu melontarkan komentar lucu.",
+        score: "albian"
+      },
+      {
+        text: "Mengusulkan kegiatan supaya semua punya kesibukan.",
+        score: "dndy"
+      },
+      {
+        text: "Melakukan sesuatu yang seru bersama-sama.",
+        score: "jason"
+      }
+    ]
+  },
 
-      stepCount.textContent =
-        String(currentQuestion + 1).padStart(2, "0") +
-        " / " + String(questions.length).padStart(2, "0");
+  {
+    question: "Suasana mana yang paling menggambarkan dirimu?",
+    subtitle: "Pilih suasana yang paling sesuai dengan vibes kamu.",
+    answers: [
+      {
+        text: "Senja yang tenang dan menenangkan.",
+        score: "albian"
+      },
+      {
+        text: "Pagi yang cerah dan penuh rencana.",
+        score: "dndy"
+      },
+      {
+        text: "Siang yang ramai dan penuh energi.",
+        score: "jason"
+      },
+      {
+        text: "Malam yang santai dan bebas.",
+        score: "noel"
+      }
+    ]
+  }
+];
 
-      progressFill.style.width =
-        ((currentQuestion + 1) / questions.length * 100) + "%";
+/* LOGIKA KUIS */
 
-      progressTrack.setAttribute("aria-valuenow", currentQuestion + 1);
-      questionText.textContent = question.question;
-      answersBox.replaceChildren();
-      message.textContent = "";
+let currentQuestion = 0;
+let selectedAnswers = Array(questions.length).fill(null);
+let currentResult = null;
 
-      question.answers.forEach((answer, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "answer";
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-        if (selections[currentQuestion] === index) {
-          button.classList.add("selected");
-        }
+const questionNumber = document.getElementById("questionNumber");
+const questionTitle = document.getElementById("questionTitle");
+const questionSubtitle = document.getElementById("questionSubtitle");
+const answersContainer = document.getElementById("answers");
+const progressBar = document.getElementById("progressBar");
+const progressTrack = document.getElementById("progressTrack");
+const backButton = document.getElementById("backButton");
+const nextButton = document.getElementById("nextButton");
 
-        const letter = document.createElement("span");
-        letter.className = "letter";
-        letter.textContent = String.fromCharCode(65 + index);
+function showScreen(screen) {
+  [introScreen, quizScreen, resultScreen].forEach(function(item) {
+    item.classList.remove("active");
+  });
 
-        const text = document.createElement("span");
-        text.textContent = answer.text;
+  screen.classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-        button.append(letter, text);
+function startQuiz() {
+  currentQuestion = 0;
+  selectedAnswers = Array(questions.length).fill(null);
+  renderQuestion();
+  showScreen(quizScreen);
+}
 
-        button.addEventListener("click", () => {
-          selections[currentQuestion] = index;
-          renderQuestion();
-        });
+function renderQuestion() {
+  const question = questions[currentQuestion];
 
-        answersBox.appendChild(button);
-      });
+  questionNumber.textContent =
+    "PERTANYAAN " +
+    String(currentQuestion + 1).padStart(2, "0") +
+    " / " +
+    String(questions.length).padStart(2, "0");
 
-      backButton.disabled = currentQuestion === 0;
-      nextButton.textContent =
-        currentQuestion === questions.length - 1
-          ? "See My Result →"
-          : "Next →";
+  questionTitle.textContent = question.question;
+  questionSubtitle.textContent = question.subtitle;
+
+  const progress = (currentQuestion / questions.length) * 100;
+  progressBar.style.width = progress + "%";
+  progressTrack.setAttribute("aria-valuenow", currentQuestion);
+
+  answersContainer.innerHTML = "";
+
+  question.answers.forEach(function(answer, index) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer-button";
+
+    if (selectedAnswers[currentQuestion] === index) {
+      button.classList.add("selected");
     }
 
-    function showResult() {
-      const scores = {
-        dndy: 0,
-        jason: 0,
-        albian: 0,
-        noel: 0
-      };
+    const letter = document.createElement("span");
+    letter.className = "answer-letter";
+    letter.textContent = String.fromCharCode(65 + index);
 
-      selections.forEach((selectedIndex, questionIndex) => {
-        const answer = questions[questionIndex].answers[selectedIndex];
-        scores[answer.member]++;
-      });
+    const answerText = document.createElement("span");
+    answerText.textContent = answer.text;
 
-      const highestScore = Math.max(...Object.values(scores));
+    button.appendChild(letter);
+    button.appendChild(answerText);
 
-      const winners = Object.keys(scores).filter(
-        member => scores[member] === highestScore
-      );
-
-      const winnerId = winners[
-        Math.floor(Math.random() * winners.length)
-      ];
-
-      const winner = members[winnerId];
-
-      document.getElementById("resultName").textContent = winner.name;
-      document.getElementById("resultTitle").textContent = winner.title;
-
-      const photo = document.getElementById("resultPhoto");
-      photo.src = winner.photo;
-      photo.alt = winner.name + " - SEEN";
-
-      photo.onerror = function () {
-        this.onerror = null;
-        this.alt = "Foto tidak ditemukan. Periksa nama file foto di GitHub.";
-        this.style.display = "none";
-      };
-
-      const description = document.getElementById("resultDescription");
-      description.replaceChildren();
-
-      winner.description.forEach(paragraph => {
-        const p = document.createElement("p");
-        p.textContent = paragraph;
-        description.appendChild(p);
-      });
-
-      quizCard.classList.add("hidden");
-      resultCard.classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    nextButton.addEventListener("click", () => {
-      if (selections[currentQuestion] === null) {
-        message.textContent = "Pilih satu jawaban dulu ya! ♡";
-        return;
-      }
-
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-      } else {
-        showResult();
-      }
-    });
-
-    backButton.addEventListener("click", () => {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-      }
-    });
-
-    document.getElementById("restartButton").addEventListener("click", () => {
-      currentQuestion = 0;
-      selections = Array(questions.length).fill(null);
-
-      resultCard.classList.add("hidden");
-      quizCard.classList.remove("hidden");
-
+    button.addEventListener("click", function() {
+      selectedAnswers[currentQuestion] = index;
       renderQuestion();
-      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
+    answersContainer.appendChild(button);
+  });
+
+  backButton.disabled = currentQuestion === 0;
+  nextButton.disabled = selectedAnswers[currentQuestion] === null;
+
+  nextButton.textContent =
+    currentQuestion === questions.length - 1
+      ? "LIHAT HASIL →"
+      : "LANJUT →";
+}
+
+function calculateResult() {
+  const scores = {
+    dndy: 0,
+    jason: 0,
+    albian: 0,
+    noel: 0
+  };
+
+  questions.forEach(function(question, index) {
+    const selectedIndex = selectedAnswers[index];
+
+    if (selectedIndex !== null) {
+      const memberKey = question.answers[selectedIndex].score;
+      scores[memberKey]++;
+    }
+  });
+
+  const highestScore = Math.max(...Object.values(scores));
+
+  const winners = Object.keys(scores).filter(function(memberKey) {
+    return scores[memberKey] === highestScore;
+  });
+
+  // Jika ada skor seri, pilih salah satu pemenang secara acak.
+  const winnerKey = winners[
+    Math.floor(Math.random() * winners.length)
+  ];
+
+  return members[winnerKey];
+}
+
+function showResult() {
+  currentResult = calculateResult();
+
+  document.getElementById("memberName").textContent =
+    currentResult.name;
+
+  document.getElementById("memberTitle").textContent =
+    currentResult.title;
+
+  document.getElementById("personalityDescription").textContent =
+    currentResult.description;
+
+  const photo = document.getElementById("memberPhoto");
+  const placeholder = document.getElementById("photoPlaceholder");
+
+  photo.onerror = function() {
+    photo.style.display = "none";
+    placeholder.style.display = "grid";
+  };
+
+  photo.onload = function() {
+    photo.style.display = "block";
+    placeholder.style.display = "none";
+  };
+
+  placeholder.textContent = currentResult.name;
+  placeholder.style.display = "none";
+  photo.style.display = "block";
+  photo.alt = "Foto " + currentResult.name + " dari SEEN";
+  photo.src = currentResult.image;
+
+  progressBar.style.width = "100%";
+  progressTrack.setAttribute("aria-valuenow", questions.length);
+
+  showScreen(resultScreen);
+}
+
+function nextQuestion() {
+  if (selectedAnswers[currentQuestion] === null) {
+    return;
+  }
+
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
     renderQuestion();
-  </script>
+  } else {
+    showResult();
+  }
+}
+
+function previousQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function shareToX() {
+  if (!currentResult) return;
+
+  const shareText =
+    "Aku dapat " + currentResult.name +
+    " (" + currentResult.title + ") " +
+    "di kuis Which SEEN Member Are You! 💙\n\n" +
+    "Kamu dapat member SEEN yang mana?\n" +
+    "#SEEN";
+
+  const shareURL =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(shareText);
+
+  window.open(shareURL, "_blank", "noopener,noreferrer");
+}
+
+function restartQuiz() {
+  currentQuestion = 0;
+  selectedAnswers = Array(questions.length).fill(null);
+  currentResult = null;
+  showScreen(introScreen);
+}
+
+/* TOMBOL */
+
+document.getElementById("startButton")
+  .addEventListener("click", startQuiz);
+
+nextButton.addEventListener("click", nextQuestion);
+backButton.addEventListener("click", previousQuestion);
+
+document.getElementById("shareButton")
+  .addEventListener("click", shareToX);
+
+document.getElementById("restartButton")
+  .addEventListener("click", restartQuiz);
+</script>
 </body>
 </html>
